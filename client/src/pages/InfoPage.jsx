@@ -183,7 +183,7 @@ const InfoPage = () => {
               <input type="file" name="profileImage" accept="image/*" onChange={(e) => setProfileImageFile(e.target.files[0])} />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="row two-col">
               <div className="form-group">
                 <label>Phone Number</label>
                 <input name="phone" value={formData.phone} onChange={handleChange} />
@@ -194,7 +194,7 @@ const InfoPage = () => {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="row two-col">
               <div className="form-group">
                 <label>Gender</label>
                 <input name="gender" value={formData.gender} onChange={handleChange} />

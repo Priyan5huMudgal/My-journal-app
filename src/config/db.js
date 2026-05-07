@@ -9,7 +9,6 @@ const connectDB = async (uri) => {
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error.message);
-    process.exit(1);
   }
 };
 

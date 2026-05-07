@@ -1,13 +1,13 @@
+const dotenv = require("dotenv");
+dotenv.config({ override: true });
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const journalRoutes = require("./routes/journal");
-
-dotenv.config();
 const app = express();
 
 dbConnect();
@@ -15,6 +15,7 @@ dbConnect();
 function dbConnect() {
   const mongoUri =
     process.env.MONGO_URI || "mongodb://127.0.0.1:27017/my-journal";
+  console.log("MONGO_URI starts with:", mongoUri.substring(0, 30) + "...");
   connectDB(mongoUri);
 }
 
@@ -34,6 +35,11 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Endpoint not found' });
 });
 
+app.use((err, req, res, next) => {
+  console.error('Unhandled Error:', err);
+  res.status(500).json({ message: err.message || 'Internal Server Error' });
+});
+
 if (process.env.NODE_ENV === "production") {
   const staticPath = path.join(__dirname, "..", "client", "dist");
   app.use(express.static(staticPath));
@@ -43,6 +49,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`My Journal backend running on http://localhost:${PORT}`);
+});
+
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Run: taskkill /F /IM node.exe`);
+  } else {
+    console.error("Server error:", err);
+  }
+  process.exit(1);
 });

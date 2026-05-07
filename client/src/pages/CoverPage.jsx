@@ -17,7 +17,11 @@ const CoverPage = () => {
       setError('');
       await login(form);
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to open journal');
+      if (!err.response) {
+        setError('Network Error: Unable to connect to the server.');
+      } else {
+        setError(err.response?.data?.message || 'Unable to open journal');
+      }
     }
   };
 

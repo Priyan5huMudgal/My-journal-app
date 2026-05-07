@@ -43,7 +43,11 @@ const RegisterPage = () => {
       
       await register(submitData);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to create account");
+      if (!err.response) {
+        setError('Network Error: Unable to connect to the server.');
+      } else {
+        setError(err.response?.data?.message || "Failed to create account");
+      }
     }
   };
 

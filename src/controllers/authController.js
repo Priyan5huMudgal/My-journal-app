@@ -8,6 +8,7 @@ const createToken = (userId) => {
 };
 
 exports.register = async (req, res) => {
+  console.log("Register request received:", { body: req.body, file: req.file ? "yes" : "no" });
   const {
     fullName,
     email,
@@ -27,6 +28,11 @@ exports.register = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Email or username already exists" });
+    }
+    if (!password || password.length < 4) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 4 characters long" });
     }
     let finalProfileImage = profileImage;
     if (req.file) {
@@ -67,6 +73,7 @@ exports.register = async (req, res) => {
         },
       });
   } catch (error) {
+    console.error("Registration error:", error);
     res
       .status(500)
       .json({ message: "Registration failed", error: error.message });
