@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const journalRoutes = require("./routes/journal");
+const startAutoCloseJob = require("./cron/autoCloseJournals");
 const app = express();
 
 dbConnect();
@@ -51,6 +52,7 @@ if (process.env.NODE_ENV === "production") {
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log(`My Journal backend running on http://localhost:${PORT}`);
+  startAutoCloseJob();
 });
 
 server.on("error", (err) => {

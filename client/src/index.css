@@ -251,6 +251,13 @@ textarea::placeholder {
   padding: 10px 0;
 }
 
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--text-placeholder);
+  font-style: italic;
+  margin-top: -2px;
+}
+
 .register-card {
   padding: 42px;
 }

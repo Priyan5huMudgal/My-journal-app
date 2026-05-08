@@ -98,7 +98,9 @@ const RegisterPage = () => {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Choose a secret"
+                minLength={8}
               />
+              <span className="field-hint">Minimum 8 characters</span>
             </label>
           </div>
           <div className="row two-col">

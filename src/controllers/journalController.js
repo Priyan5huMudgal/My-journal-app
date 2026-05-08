@@ -11,6 +11,12 @@ exports.getCurrentJournal = async (req, res) => {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    // Auto-close any of this user's past journals that are still open
+    await Journal.updateMany(
+      { user: req.user._id, closed: false, date: { $lt: today } },
+      { $set: { closed: true } }
+    );
+
     // Check if journal entry exists for today
     let journal = await Journal.findOne({
       user: req.user._id,
